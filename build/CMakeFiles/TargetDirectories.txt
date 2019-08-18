@@ -1,3 +1,0 @@
-/Users/bander/Development/cpp/cpp_concurrency_L2_project/build/CMakeFiles/rebuild_cache.dir
-/Users/bander/Development/cpp/cpp_concurrency_L2_project/build/CMakeFiles/edit_cache.dir
-/Users/bander/Development/cpp/cpp_concurrency_L2_project/build/CMakeFiles/traffic_simulation.dir

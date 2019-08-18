@@ -3,6 +3,7 @@
 #include <chrono>
 #include <future>
 #include <random>
+#include <memory>
 
 #include "Street.h"
 #include "Intersection.h"
@@ -26,8 +27,7 @@ void WaitingVehicles::permitEntryToFirstInQueue()
     // L2.3 : First, get the entries from the front of _promises and _vehicles. 
     // Then, fulfill promise and send signal back that permission to enter has been granted.
     // Finally, remove the front elements from both queues.
-    std::shared_ptr<Vehicle> vehicle = _vehicles.front();
-    _promises.front().set_value();
+    _promises.begin()->set_value();
     _vehicles.erase(_vehicles.begin());
     _promises.erase(_promises.begin());
 }
@@ -70,7 +70,8 @@ void Intersection::addVehicleToQueue(std::shared_ptr<Vehicle> vehicle)
     std::promise<void> prm;
     std::future<void> ftr = prm.get_future();
 
-    std::thread t = std::thread(&WaitingVehicles::pushBack, _waitingVehicles, vehicle, std::move(prm));
+    _waitingVehicles.pushBack(vehicle, std::move(prm));
+
     ftr.wait();
     std::cout << "Intersection #" << _id << ": Vehicle #" << vehicle->getID() << " is granted entry." << std::endl;
 }
